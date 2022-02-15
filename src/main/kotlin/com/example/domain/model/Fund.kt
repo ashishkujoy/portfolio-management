@@ -18,6 +18,10 @@ class Fund(val name: String, stocks: Set<Stock>) {
         return BigDecimal(((2.00 * commonFunds) / totalFunds) * 100.00).setScale(2, RoundingMode.CEILING)
     }
 
+    fun copy(): Fund {
+        return Fund(name, currentStocks.toSet())
+    }
+
     override fun equals(other: Any?): Boolean {
         return when (other) {
             is Fund -> other.name == name && other.currentStocks == currentStocks
