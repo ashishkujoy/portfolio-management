@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class PortfolioTest {
 
@@ -78,5 +79,42 @@ class PortfolioTest {
             it.shouldBeTypeOf<FundNotFoundError>()
             it.fundName shouldBe "MIRAE_ASSET_EMERGING_BLUECHIP"
         }
+    }
+
+    @Test
+    fun `give overlap with funds present in portfolio`() {
+        val portfolio = Portfolio(
+            funds = setOf(
+                Fund(
+                    name = "UTI_NIFTY_INDEX",
+                    stocks = setOf(
+                        Stock("INFOSYS LIMITED"),
+                        Stock("BATA INDIA LIMITED"),
+                        Stock("PAGE INDUSTRIES LIMITED"),
+                        Stock("TATA STEEL LIMITED"),
+                    )
+                ),
+                Fund(
+                    name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+                    stocks = setOf(
+                        Stock("JK CEMENT LIMITED"),
+                        Stock("TATA STEEL LIMITED"),
+                    )
+                )
+            )
+        )
+
+        val actualFundsOverlapPercentage = portfolio.calculateExistingFundsOverlapWith(
+            Fund(
+                name = "AXIS_BLUECHIP",
+                stocks = setOf(
+                    Stock("TATA STEEL LIMITED"),
+                )
+            )
+        )
+
+        val expectedFundsOverlapPercentage = listOf(BigDecimal("40.00"), BigDecimal("66.67"))
+
+        actualFundsOverlapPercentage shouldBe expectedFundsOverlapPercentage
     }
 }
