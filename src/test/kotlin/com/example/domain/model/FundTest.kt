@@ -1,5 +1,6 @@
 package com.example.domain.model
 
+import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
@@ -108,5 +109,44 @@ class FundTest {
         )
 
         utiFund.overlappingStockPercentageWith(paragParikhFund) shouldBe BigDecimal("44.45")
+    }
+
+    @Test
+    fun `give a copy of fund`() {
+        val fund = Fund(
+            name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+        )
+
+        val copiedFund = fund.copy()
+
+        copiedFund shouldBe fund
+    }
+
+    @Test
+    fun `any update on copied fund should not be reflected on original fund`() {
+        val originalFund = Fund(
+            name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+        )
+
+        val copiedFund = originalFund.copy()
+        copiedFund.addStock(Stock("ALPHABET INC."))
+
+
+        assertSoftly {
+            copiedFund shouldBe Fund(
+                name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+                stocks = setOf(
+                    Stock("ADANI ENTERPRISES LIMITED"),
+                    Stock("ALPHABET INC."),
+                )
+            )
+
+            originalFund shouldBe Fund(
+                name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+                stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            )
+        }
     }
 }
