@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.domain.model
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
