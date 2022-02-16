@@ -76,4 +76,26 @@ class PortfolioServiceTest {
             it shouldBe Portfolio(funds = setOf(iciciFund, utiFund))
         }
     }
+
+    @Test
+    fun `add stock in fund of given portfolio`() {
+        val portfolio = Portfolio(funds = setOf(iciciFund))
+
+        val result = portfolioService.addStock(
+            portfolio,
+            "ICICI_PRU_NIFTY_NEXT_50_INDEX",
+            "TVS MOTOR COMPANY LIMITED"
+        )
+
+        result.shouldBeSuccess {
+            it shouldBe Portfolio(funds = setOf(Fund(
+                name = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
+                stocks = setOf(
+                    Stock("INDRAPRASTHA GAS LIMITED"),
+                    Stock("COLGATE - PALMOLIVE (INDIA) LIMITED"),
+                    Stock("TVS MOTOR COMPANY LIMITED")
+                )
+            )))
+        }
+    }
 }

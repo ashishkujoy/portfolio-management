@@ -30,4 +30,8 @@ class PortfolioService(private val masterFundsData: Set<Fund>) {
             Result.success(portfolio)
         }
     }
+
+    fun addStock(portfolio: Portfolio, fundName: String, stockName: String): Result<Portfolio> {
+        return portfolio.addStockInFund(stockName, fundName)
+    }
 }
