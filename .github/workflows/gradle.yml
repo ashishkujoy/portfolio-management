@@ -23,3 +23,7 @@ jobs:
 
       - name: Execute Gradle build
         run: ./gradlew test
+
+      - name: Upload coverage to codecov.io
+        uses: codecov/codecov-action@v2.1.0
+
