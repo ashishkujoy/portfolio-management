@@ -8,6 +8,7 @@ import com.example.utils.flatMap
 import java.io.File
 
 class PortfolioManagement {
+
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
