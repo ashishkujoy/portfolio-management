@@ -20,7 +20,7 @@ object CommandParser {
 
     private fun parseCurrentPortfolioCommand(rawCommand: String): Command {
         val fundNames = rawCommand.substringAfter("CURRENT_PORTFOLIO ").trim().split(" ")
-        return CurrentPortfolioCommand(fundNames.toSet())
+        return CurrentPortfolioCommand(fundNames)
     }
 
     private fun parseCalculateFundOverlapCommand(rawCommand: String): Command {

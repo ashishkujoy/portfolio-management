@@ -5,17 +5,16 @@ import com.example.domain.model.Fund
 import com.example.domain.model.FundOverlap
 import com.example.domain.model.Portfolio
 
-class PortfolioService(private val masterFundsData: Set<Fund>) {
-    fun newPortfolioWithFunds(fundNames: Set<String>): Result<Portfolio> {
+class PortfolioService(private val masterFundsData: List<Fund>) {
+    fun newPortfolioWithFunds(fundNames: List<String>): Result<Portfolio> {
         val nonExistingFundName = fundNames.find { fundName -> masterFundsData.none { it.name == fundName } }
 
         return if (nonExistingFundName != null) {
             Result.failure(FundNotFoundError(nonExistingFundName))
         } else {
-            val funds = masterFundsData
-                .filter { fund -> fundNames.contains(fund.name) }
-                .map { fund -> fund.copy() }
-                .toSet()
+            val funds = fundNames.map { fundName ->
+                masterFundsData.find { it.name == fundName }!!.copy()
+            }
 
             Result.success(Portfolio(funds))
         }

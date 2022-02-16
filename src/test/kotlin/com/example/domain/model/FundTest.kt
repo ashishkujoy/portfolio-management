@@ -13,8 +13,8 @@ class FundTest {
         val lngStock = Stock("PETRONET LNG LIMITED")
         val adaniStock = Stock("ADANI ENTERPRISES LIMITED")
 
-        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock, adaniStock))
-        val anotherIciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock, adaniStock))
+        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock, adaniStock))
+        val anotherIciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock, adaniStock))
 
         iciciFund shouldBe anotherIciciFund
     }
@@ -24,8 +24,8 @@ class FundTest {
         val lngStock = Stock("PETRONET LNG LIMITED")
         val adaniStock = Stock("ADANI ENTERPRISES LIMITED")
 
-        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock, adaniStock))
-        val miraefund = Fund("MIRAE_ASSET_EMERGING_BLUECHIP", setOf(lngStock, adaniStock))
+        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock, adaniStock))
+        val miraefund = Fund("MIRAE_ASSET_EMERGING_BLUECHIP", listOf(lngStock, adaniStock))
 
         iciciFund shouldNotBe miraefund
     }
@@ -35,8 +35,8 @@ class FundTest {
         val lngStock = Stock("PETRONET LNG LIMITED")
         val adaniStock = Stock("ADANI ENTERPRISES LIMITED")
 
-        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock, adaniStock))
-        val anotherIciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock))
+        val iciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock, adaniStock))
+        val anotherIciciFund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock))
 
         iciciFund shouldNotBe anotherIciciFund
     }
@@ -45,13 +45,13 @@ class FundTest {
     fun `add given stock`() {
         val lngStock = Stock("PETRONET LNG LIMITED")
         val adaniStock = Stock("ADANI ENTERPRISES LIMITED")
-        val fund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", setOf(lngStock))
+        val fund = Fund("ICICI_PRU_NIFTY_NEXT_50_INDEX", listOf(lngStock))
 
         fund.addStock(adaniStock)
 
         fund shouldBe Fund(
             name = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
-            stocks = setOf(lngStock, adaniStock)
+            stocks = listOf(lngStock, adaniStock)
         )
     }
 
@@ -59,12 +59,12 @@ class FundTest {
     fun `give zero percent overlap given funds does not have any common stock`() {
         val iciciFund = Fund(
             name = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
-            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
         )
 
         val paragParikhFund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(Stock("3M INDIA LIMITED"))
+            stocks = listOf(Stock("3M INDIA LIMITED"))
         )
 
         iciciFund.overlappingStockPercentageWith(paragParikhFund) shouldBe BigDecimal("0.00")
@@ -74,12 +74,12 @@ class FundTest {
     fun `give 100 percent overlap given funds having same stocks`() {
         val utiFund = Fund(
             name = "UTI_NIFTY_INDEX",
-            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
         )
 
         val paragParikhFund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
         )
 
         utiFund.overlappingStockPercentageWith(paragParikhFund) shouldBe BigDecimal("100.00")
@@ -89,7 +89,7 @@ class FundTest {
     fun `give percentage of overlap given funds having some same stocks`() {
         val utiFund = Fund(
             name = "UTI_NIFTY_INDEX",
-            stocks = setOf(
+            stocks = listOf(
                 Stock("ADANI ENTERPRISES LIMITED"),
                 Stock("PI INDUSTRIES LIMITED"),
                 Stock("THE INDIAN HOTELS COMPANY LIMITED"),
@@ -101,7 +101,7 @@ class FundTest {
 
         val paragParikhFund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(
+            stocks = listOf(
                 Stock("ADANI ENTERPRISES LIMITED"),
                 Stock("CUMMINS INDIA LIMITED"),
                 Stock("DABUR INDIA LIMITED"),
@@ -115,7 +115,7 @@ class FundTest {
     fun `give a copy of fund`() {
         val fund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
         )
 
         val copiedFund = fund.copy()
@@ -127,7 +127,7 @@ class FundTest {
     fun `any update on copied fund should not be reflected on original fund`() {
         val originalFund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+            stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
         )
 
         val copiedFund = originalFund.copy()
@@ -137,7 +137,7 @@ class FundTest {
         assertSoftly {
             copiedFund shouldBe Fund(
                 name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-                stocks = setOf(
+                stocks = listOf(
                     Stock("ADANI ENTERPRISES LIMITED"),
                     Stock("ALPHABET INC."),
                 )
@@ -145,7 +145,7 @@ class FundTest {
 
             originalFund shouldBe Fund(
                 name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-                stocks = setOf(Stock("ADANI ENTERPRISES LIMITED"))
+                stocks = listOf(Stock("ADANI ENTERPRISES LIMITED"))
             )
         }
     }

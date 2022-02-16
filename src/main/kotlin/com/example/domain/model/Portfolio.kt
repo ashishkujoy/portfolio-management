@@ -2,8 +2,8 @@ package com.example.domain.model
 
 import com.example.domain.error.FundNotFoundError
 
-class Portfolio(funds: Set<Fund>) {
-    private val currentFunds = funds.toMutableSet()
+class Portfolio(funds: List<Fund>) {
+    private val currentFunds = funds.toMutableList()
 
     fun addStockInFund(stockName: String, fundName: String): Result<Portfolio> {
         return findFund(fundName).map { fund ->

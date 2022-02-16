@@ -92,10 +92,9 @@ class CLIApplication(private val portfolioService: PortfolioService) {
                             .convertValue<List<String>>(fundEntry["stocks"] as Any)
                             .map { stockName -> Stock(stockName) }
 
-                        Fund(fundName, stocks.toSet())
+                        Fund(fundName, stocks)
                     }
                 }
-                .toSet()
 
             return CLIApplication(PortfolioService(funds))
         }

@@ -12,16 +12,16 @@ class PortfolioTest {
 
     @Test
     fun `portfolios having different funds should be different`() {
-        val portfolio1 = Portfolio(funds = setOf(Fund("UTI_NIFTY_INDEX", emptySet())))
-        val portfolio2 = Portfolio(funds = setOf(Fund("PARAG_PARIKH_CONSERVATIVE_HYBRID", emptySet())))
+        val portfolio1 = Portfolio(funds = listOf(Fund("UTI_NIFTY_INDEX", emptyList())))
+        val portfolio2 = Portfolio(funds = listOf(Fund("PARAG_PARIKH_CONSERVATIVE_HYBRID", emptyList())))
 
         portfolio1 shouldNotBe portfolio2
     }
 
     @Test
     fun `portfolios having same funds should be equal`() {
-        val portfolio1 = Portfolio(funds = setOf(Fund("UTI_NIFTY_INDEX", emptySet())))
-        val portfolio2 = Portfolio(funds = setOf(Fund("UTI_NIFTY_INDEX", emptySet())))
+        val portfolio1 = Portfolio(funds = listOf(Fund("UTI_NIFTY_INDEX", emptyList())))
+        val portfolio2 = Portfolio(funds = listOf(Fund("UTI_NIFTY_INDEX", emptyList())))
 
         portfolio1 shouldBe portfolio2
     }
@@ -29,14 +29,14 @@ class PortfolioTest {
     @Test
     fun `add stock successfully in portfolio`() {
         val portfolio = Portfolio(
-            funds = setOf(
+            funds = listOf(
                 Fund(
                     name = "UTI_NIFTY_INDEX",
-                    stocks = setOf(Stock("INFOSYS LIMITED"))
+                    stocks = listOf(Stock("INFOSYS LIMITED"))
                 ),
                 Fund(
                     name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-                    stocks = setOf(Stock("JK CEMENT LIMITED"))
+                    stocks = listOf(Stock("JK CEMENT LIMITED"))
                 )
             )
         )
@@ -44,14 +44,14 @@ class PortfolioTest {
         portfolio.addStockInFund(stockName = "COFORGE LIMITED", fundName = "UTI_NIFTY_INDEX")
 
         val expectedPortfolio = Portfolio(
-            funds = setOf(
+            funds = listOf(
                 Fund(
                     name = "UTI_NIFTY_INDEX",
-                    stocks = setOf(Stock("INFOSYS LIMITED"), Stock("COFORGE LIMITED"))
+                    stocks = listOf(Stock("INFOSYS LIMITED"), Stock("COFORGE LIMITED"))
                 ),
                 Fund(
                     name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-                    stocks = setOf(Stock("JK CEMENT LIMITED"))
+                    stocks = listOf(Stock("JK CEMENT LIMITED"))
                 )
             )
         )
@@ -62,10 +62,10 @@ class PortfolioTest {
     @Test
     fun `give error while add stock to fund which is not present in portfolio`() {
         val portfolio = Portfolio(
-            funds = setOf(
+            funds = listOf(
                 Fund(
                     name = "UTI_NIFTY_INDEX",
-                    stocks = setOf(Stock("INFOSYS LIMITED"))
+                    stocks = listOf(Stock("INFOSYS LIMITED"))
                 )
             )
         )
@@ -84,10 +84,10 @@ class PortfolioTest {
     @Test
     fun `give overlap with funds present in portfolio`() {
         val portfolio = Portfolio(
-            funds = setOf(
+            funds = listOf(
                 Fund(
                     name = "UTI_NIFTY_INDEX",
-                    stocks = setOf(
+                    stocks = listOf(
                         Stock("INFOSYS LIMITED"),
                         Stock("BATA INDIA LIMITED"),
                         Stock("PAGE INDUSTRIES LIMITED"),
@@ -96,7 +96,7 @@ class PortfolioTest {
                 ),
                 Fund(
                     name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-                    stocks = setOf(
+                    stocks = listOf(
                         Stock("JK CEMENT LIMITED"),
                         Stock("TATA STEEL LIMITED"),
                     )
@@ -107,7 +107,7 @@ class PortfolioTest {
         val actualFundsOverlapPercentage = portfolio.calculateExistingFundsOverlapWith(
             Fund(
                 name = "AXIS_BLUECHIP",
-                stocks = setOf(
+                stocks = listOf(
                     Stock("TATA STEEL LIMITED"),
                 )
             )
@@ -125,17 +125,17 @@ class PortfolioTest {
     fun `add fund in portfolio`() {
         val utiFund = Fund(
             name = "UTI_NIFTY_INDEX",
-            stocks = setOf(Stock("INFOSYS LIMITED"))
+            stocks = listOf(Stock("INFOSYS LIMITED"))
         )
         val paragFund = Fund(
             name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-            stocks = setOf(Stock("JK CEMENT LIMITED"))
+            stocks = listOf(Stock("JK CEMENT LIMITED"))
         )
 
-        val portfolio = Portfolio(funds = setOf(utiFund))
+        val portfolio = Portfolio(funds = listOf(utiFund))
 
         portfolio.addFund(paragFund)
 
-        portfolio shouldBe Portfolio(setOf(utiFund, paragFund))
+        portfolio shouldBe Portfolio(listOf(utiFund, paragFund))
     }
 }

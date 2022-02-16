@@ -19,7 +19,7 @@ class CommandParserTest {
 
         result.shouldBeSuccess {
             it shouldBe listOf(
-                CurrentPortfolioCommand(setOf("AXIS_BLUECHIP", "ICICI_PRU_BLUECHIP", "UTI_NIFTY_INDEX")),
+                CurrentPortfolioCommand(listOf("AXIS_BLUECHIP", "ICICI_PRU_BLUECHIP", "UTI_NIFTY_INDEX")),
                 CalculateOverlapCommand("MIRAE_ASSET_EMERGING_BLUECHIP"),
                 CalculateOverlapCommand("MIRAE_ASSET_LARGE_CAP"),
                 AddStockCommand("AXIS_BLUECHIP", "THE GREAT EASTERN SHIPPING COMPANY LIMITED"),

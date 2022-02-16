@@ -14,20 +14,20 @@ import java.math.BigDecimal
 class PortfolioServiceTest {
     private val iciciFund = Fund(
         name = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
-        stocks = setOf(
+        stocks = listOf(
             Stock("INDRAPRASTHA GAS LIMITED"),
             Stock("COLGATE - PALMOLIVE (INDIA) LIMITED")
         )
     )
     private val pragFund = Fund(
         name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
-        stocks = setOf(
+        stocks = listOf(
             Stock("INDRAPRASTHA GAS LIMITED")
         )
     )
     private val utiFund = Fund(
         name = "UTI_NIFTY_INDEX",
-        stocks = setOf(
+        stocks = listOf(
             Stock("TVS MOTOR COMPANY LIMITED"),
             Stock("EQUITAS HOLDINGS LIMITED"),
             Stock("INDRAPRASTHA GAS LIMITED"),
@@ -35,22 +35,22 @@ class PortfolioServiceTest {
     )
     private val axisFund = Fund(
         name = "AXIS_BLUECHIP",
-        stocks = setOf(Stock("INDRAPRASTHA GAS LIMITED"))
+        stocks = listOf(Stock("INDRAPRASTHA GAS LIMITED"))
     )
 
-    private val masterFundsData = setOf(iciciFund, pragFund, utiFund, axisFund)
+    private val masterFundsData = listOf(iciciFund, pragFund, utiFund, axisFund)
     private val portfolioService = PortfolioService(masterFundsData)
 
     @Test
     fun `create portfolio having funds of given name`() {
         val result = portfolioService.newPortfolioWithFunds(
-            fundNames = setOf(
+            fundNames = listOf(
                 "ICICI_PRU_NIFTY_NEXT_50_INDEX",
                 "UTI_NIFTY_INDEX"
             )
         )
 
-        val expectedPortfolio = Portfolio(funds = setOf(iciciFund, utiFund))
+        val expectedPortfolio = Portfolio(funds = listOf(iciciFund, utiFund))
 
         result.shouldBeSuccess {
             it shouldBe expectedPortfolio
@@ -60,7 +60,7 @@ class PortfolioServiceTest {
     @Test
     fun `gives error if fund for given name is not present`() {
         val result = portfolioService.newPortfolioWithFunds(
-            fundNames = setOf(
+            fundNames = listOf(
                 "ICICI_PRU_NIFTY_NEXT_50_INDEX",
                 "UTI_NIFTY_INDEX",
                 "MIRAE_ASSET_LARGE_CAP"
@@ -74,18 +74,18 @@ class PortfolioServiceTest {
 
     @Test
     fun `add fund in given portfolio`() {
-        val portfolio = Portfolio(funds = setOf(iciciFund))
+        val portfolio = Portfolio(funds = listOf(iciciFund))
 
         val result = portfolioService.addFund(portfolio, "UTI_NIFTY_INDEX")
 
         result.shouldBeSuccess {
-            it shouldBe Portfolio(funds = setOf(iciciFund, utiFund))
+            it shouldBe Portfolio(funds = listOf(iciciFund, utiFund))
         }
     }
 
     @Test
     fun `add stock in fund of given portfolio`() {
-        val portfolio = Portfolio(funds = setOf(iciciFund))
+        val portfolio = Portfolio(funds = listOf(iciciFund))
 
         val result = portfolioService.addStock(
             portfolio,
@@ -94,9 +94,9 @@ class PortfolioServiceTest {
         )
 
         result.shouldBeSuccess {
-            it shouldBe Portfolio(funds = setOf(Fund(
+            it shouldBe Portfolio(funds = listOf(Fund(
                 name = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
-                stocks = setOf(
+                stocks = listOf(
                     Stock("INDRAPRASTHA GAS LIMITED"),
                     Stock("COLGATE - PALMOLIVE (INDIA) LIMITED"),
                     Stock("TVS MOTOR COMPANY LIMITED")
@@ -107,7 +107,7 @@ class PortfolioServiceTest {
 
     @Test
     fun `calculate fund overlap for given fund and portfolio`() {
-        val portfolio = Portfolio(funds = setOf(iciciFund, utiFund, pragFund))
+        val portfolio = Portfolio(funds = listOf(iciciFund, utiFund, pragFund))
 
         val result = portfolioService.calculateFundsOverlap(portfolio, axisFund.name)
 
