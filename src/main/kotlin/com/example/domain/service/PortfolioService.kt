@@ -7,27 +7,19 @@ import com.example.domain.model.Portfolio
 
 class PortfolioService(private val masterFundsData: List<Fund>) {
     fun newPortfolioWithFunds(fundNames: List<String>): Result<Portfolio> {
-        val nonExistingFundName = fundNames.find { fundName -> masterFundsData.none { it.name == fundName } }
+        val funds = fundNames.map(::findFund)
+        val failure = funds.find { it.isFailure }
 
-        return if (nonExistingFundName != null) {
-            Result.failure(FundNotFoundError(nonExistingFundName))
+        return if (failure != null) {
+            Result.failure(failure.exceptionOrNull()!!)
         } else {
-            val funds = fundNames.map { fundName ->
-                masterFundsData.find { it.name == fundName }!!.copy()
-            }
-
-            Result.success(Portfolio(funds))
+            Result.success(Portfolio(funds.map { it.getOrThrow() }))
         }
     }
 
     fun addFund(portfolio: Portfolio, fundName: String): Result<Portfolio> {
-        val fund = masterFundsData.find { it.name == fundName }
-
-        return if (fund == null) {
-            Result.failure(FundNotFoundError(fundName))
-        } else {
+        return findFund(fundName).map { fund ->
             portfolio.addFund(fund.copy())
-            Result.success(portfolio)
         }
     }
 
@@ -36,12 +28,18 @@ class PortfolioService(private val masterFundsData: List<Fund>) {
     }
 
     fun calculateFundsOverlap(portfolio: Portfolio, fundName: String): Result<List<FundOverlap>> {
+        return findFund(fundName).map { fund ->
+            portfolio.calculateExistingFundsOverlapWith(fund)
+        }
+    }
+
+    private fun findFund(fundName: String): Result<Fund> {
         val fund = masterFundsData.find { it.name == fundName }
 
-        return if(fund == null) {
+        return if (fund == null) {
             Result.failure(FundNotFoundError(fundName))
         } else {
-            Result.success(portfolio.calculateExistingFundsOverlapWith(fund))
+            Result.success(fund)
         }
     }
 }
