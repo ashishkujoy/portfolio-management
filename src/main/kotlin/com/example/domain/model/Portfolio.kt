@@ -1,7 +1,6 @@
 package com.example.domain.model
 
 import com.example.domain.error.FundNotFoundError
-import java.math.BigDecimal
 
 class Portfolio(funds: Set<Fund>) {
     private val currentFunds = funds.toMutableSet()
@@ -13,8 +12,11 @@ class Portfolio(funds: Set<Fund>) {
         }
     }
 
-    fun calculateExistingFundsOverlapWith(fund: Fund): List<BigDecimal> {
-        return currentFunds.map { it.overlappingStockPercentageWith(fund) }
+    fun calculateExistingFundsOverlapWith(fund: Fund): List<FundOverlap> {
+        return currentFunds.map {
+            val overlapPercentage = it.overlappingStockPercentageWith(fund)
+            FundOverlap(fund.name, it.name, overlapPercentage)
+        }
     }
 
     private fun findFund(fundName: String): Result<Fund> {

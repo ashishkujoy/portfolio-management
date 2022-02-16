@@ -113,7 +113,10 @@ class PortfolioTest {
             )
         )
 
-        val expectedFundsOverlapPercentage = listOf(BigDecimal("40.00"), BigDecimal("66.67"))
+        val expectedFundsOverlapPercentage = listOf(
+            FundOverlap("AXIS_BLUECHIP", "UTI_NIFTY_INDEX", BigDecimal("40.00")),
+            FundOverlap("AXIS_BLUECHIP", "PARAG_PARIKH_CONSERVATIVE_HYBRID",BigDecimal("66.67"))
+        )
 
         actualFundsOverlapPercentage shouldBe expectedFundsOverlapPercentage
     }
