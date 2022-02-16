@@ -18,8 +18,8 @@ class CLIApplicationTest {
             )
         ).shouldBeSuccess {
             it shouldBe listOf(
-                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.52%",
-                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.38%",
+                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.51%",
+                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.37%",
             )
         }
     }
@@ -59,8 +59,8 @@ class CLIApplicationTest {
             )
         ).shouldBeSuccess {
             it shouldBe listOf(
-                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.52%",
-                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.38%",
+                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.51%",
+                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.37%",
                 "FUND_NOT_FOUND"
             )
         }
@@ -76,8 +76,8 @@ class CLIApplicationTest {
             )
         ).shouldBeSuccess {
             it shouldBe listOf(
-                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.52%",
-                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.38%",
+                "UTI_NIFTY_INDEX MIRAE_ASSET_EMERGING_BLUECHIP 65.51%",
+                "UTI_NIFTY_INDEX ICICI_PRU_NIFTY_NEXT_50_INDEX 20.37%",
                 "FUND_NOT_FOUND"
             )
         }

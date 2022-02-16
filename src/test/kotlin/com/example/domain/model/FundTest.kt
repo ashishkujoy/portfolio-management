@@ -108,7 +108,7 @@ class FundTest {
             )
         )
 
-        utiFund.overlappingStockPercentageWith(paragParikhFund) shouldBe BigDecimal("44.45")
+        utiFund.overlappingStockPercentageWith(paragParikhFund) shouldBe BigDecimal("44.44")
     }
 
     @Test

@@ -116,7 +116,7 @@ class PortfolioServiceTest {
                 FundOverlap(
                     fundName = "AXIS_BLUECHIP",
                     overlapingFundName = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
-                    overlapPercentage = BigDecimal("66.67")
+                    overlapPercentage = BigDecimal("66.66")
                 ),
                 FundOverlap(
                     fundName = "AXIS_BLUECHIP",

@@ -15,7 +15,7 @@ class Fund(val name: String, stocks: Set<Stock>) {
         val totalFunds = currentStocks.size + otherFund.currentStocks.size
         val commonFunds = currentStocks.intersect(otherFund.currentStocks).size
 
-        return BigDecimal(((2.00 * commonFunds) / totalFunds) * 100.00).setScale(2, RoundingMode.CEILING)
+        return BigDecimal(((2.00 * commonFunds) / totalFunds) * 100.00).setScale(2, RoundingMode.FLOOR)
     }
 
     fun copy(): Fund {
