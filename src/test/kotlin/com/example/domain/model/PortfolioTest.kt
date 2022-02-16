@@ -117,4 +117,22 @@ class PortfolioTest {
 
         actualFundsOverlapPercentage shouldBe expectedFundsOverlapPercentage
     }
+
+    @Test
+    fun `add fund in portfolio`() {
+        val utiFund = Fund(
+            name = "UTI_NIFTY_INDEX",
+            stocks = setOf(Stock("INFOSYS LIMITED"))
+        )
+        val paragFund = Fund(
+            name = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+            stocks = setOf(Stock("JK CEMENT LIMITED"))
+        )
+
+        val portfolio = Portfolio(funds = setOf(utiFund))
+
+        portfolio.addFund(paragFund)
+
+        portfolio shouldBe Portfolio(setOf(utiFund, paragFund))
+    }
 }

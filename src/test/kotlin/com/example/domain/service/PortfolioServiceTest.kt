@@ -65,4 +65,15 @@ class PortfolioServiceTest {
             it shouldBe FundNotFoundError("MIRAE_ASSET_LARGE_CAP")
         }
     }
+
+    @Test
+    fun `add fund in given portfolio`() {
+        val portfolio = Portfolio(funds = setOf(iciciFund))
+
+        val result = portfolioService.addFund(portfolio, "UTI_NIFTY_INDEX")
+
+        result.shouldBeSuccess {
+            it shouldBe Portfolio(funds = setOf(iciciFund, utiFund))
+        }
+    }
 }

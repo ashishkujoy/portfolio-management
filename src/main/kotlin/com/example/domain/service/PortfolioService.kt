@@ -19,4 +19,15 @@ class PortfolioService(private val masterFundsData: Set<Fund>) {
             Result.success(Portfolio(funds))
         }
     }
+
+    fun addFund(portfolio: Portfolio, fundName: String): Result<Portfolio> {
+        val fund = masterFundsData.find { it.name == fundName }
+
+        return if (fund == null) {
+            Result.failure(FundNotFoundError(fundName))
+        } else {
+            portfolio.addFund(fund.copy())
+            Result.success(portfolio)
+        }
+    }
 }
