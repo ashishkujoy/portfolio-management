@@ -51,13 +51,11 @@ class CLIApplication(private val portfolioService: PortfolioService) {
     ) {
         portfolioService.calculateFundsOverlap(portfolio, command.fundName)
             .doOnSuccess { fundOverlaps ->
-                fundOverlaps.forEach { fundOverlap ->
-                    output.add("${fundOverlap.fundName} ${fundOverlap.overlapingFundName} ${fundOverlap.overlapPercentage}%")
+                fundOverlaps.forEach {
+                    output.add("${it.fundName} ${it.overlapingFundName} ${it.overlapPercentage}%")
                 }
             }
-            .doOnError {
-                output.add("FUND_NOT_FOUND")
-            }
+            .doOnError { output.add("FUND_NOT_FOUND") }
     }
 
     private fun executeAddStockCommand(
@@ -79,24 +77,24 @@ class CLIApplication(private val portfolioService: PortfolioService) {
     }
 
     companion object {
+        private val objectMapper = jacksonObjectMapper()
         fun new(): CLIApplication {
             val seedDataFile = File("./src/main/resources/seed-data.json")
-            val objectMapper = jacksonObjectMapper()
 
             val funds = objectMapper
                 .readValue<Set<Map<String, Any>>>(seedDataFile.readText())
-                .let {
-                    it.map { fundEntry ->
-                        val fundName = fundEntry["name"] as String
-                        val stocks = objectMapper
-                            .convertValue<List<String>>(fundEntry["stocks"] as Any)
-                            .map { stockName -> Stock(stockName) }
-
-                        Fund(fundName, stocks)
-                    }
-                }
+                .map(::convertToFund)
 
             return CLIApplication(PortfolioService(funds))
+        }
+
+        private fun convertToFund(fundEntry: Map<String, Any>): Fund {
+            val fundName = fundEntry["name"] as String
+            val stocks = objectMapper
+                .convertValue<List<String>>(fundEntry["stocks"] as Any)
+                .map { stockName -> Stock(stockName) }
+
+            return Fund(fundName, stocks)
         }
     }
 }
