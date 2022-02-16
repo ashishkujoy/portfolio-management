@@ -2,12 +2,14 @@ package com.example.domain.service
 
 import com.example.domain.error.FundNotFoundError
 import com.example.domain.model.Fund
+import com.example.domain.model.FundOverlap
 import com.example.domain.model.Portfolio
 import com.example.domain.model.Stock
 import io.kotest.matchers.result.shouldBeFailure
 import io.kotest.matchers.result.shouldBeSuccess
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class PortfolioServiceTest {
     private val iciciFund = Fund(
@@ -31,8 +33,12 @@ class PortfolioServiceTest {
             Stock("INDRAPRASTHA GAS LIMITED"),
         )
     )
+    private val axisFund = Fund(
+        name = "AXIS_BLUECHIP",
+        stocks = setOf(Stock("INDRAPRASTHA GAS LIMITED"))
+    )
 
-    private val masterFundsData = setOf(iciciFund, pragFund, utiFund)
+    private val masterFundsData = setOf(iciciFund, pragFund, utiFund, axisFund)
     private val portfolioService = PortfolioService(masterFundsData)
 
     @Test
@@ -97,5 +103,34 @@ class PortfolioServiceTest {
                 )
             )))
         }
+    }
+
+    @Test
+    fun `calculate fund overlap for given fund and portfolio`() {
+        val portfolio = Portfolio(funds = setOf(iciciFund, utiFund, pragFund))
+
+        val result = portfolioService.calculateFundsOverlap(portfolio, axisFund.name)
+
+        result.shouldBeSuccess {
+            it shouldBe listOf(
+                FundOverlap(
+                    fundName = "AXIS_BLUECHIP",
+                    overlapingFundName = "ICICI_PRU_NIFTY_NEXT_50_INDEX",
+                    overlapPercentage = BigDecimal("66.67")
+                ),
+                FundOverlap(
+                    fundName = "AXIS_BLUECHIP",
+                    overlapingFundName = "UTI_NIFTY_INDEX",
+                    overlapPercentage = BigDecimal("50.00")
+                ),
+                FundOverlap(
+                    fundName = "AXIS_BLUECHIP",
+                    overlapingFundName = "PARAG_PARIKH_CONSERVATIVE_HYBRID",
+                    overlapPercentage = BigDecimal("100.00")
+                ),
+
+            )
+        }
+
     }
 }
